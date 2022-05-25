@@ -22,7 +22,7 @@
             <form class="none">
                 <div id="form-part-one">
                     <input id="title" type="text" placeholder="Enter task title" required>
-                    <textarea id="description" type="text-area" placeholder="Enter task description"
+                    <textarea id="description" type="text-area" placeholder="Enter task description" maxlength="150"
                         required></textarea>
                 </div>
                 <div id="form-part-two">
@@ -36,7 +36,10 @@
                         <option value="75" label="4">4</option>
                         <option value="100" label="5">5</option>
                     </datalist>
-                    <button id="submit" type="submit">+</button>
+                    <div id="date_btn">
+                        <input type="date" name="due_date" id="due_date">
+                        <button id="submit_btn" type="submit">+</button>
+                    </div>
                 </div>
             </form>
             <hr>
@@ -44,6 +47,21 @@
                 <div id="todo">
                     <h3>- todo items -</h3>
                     <ul id="todo-items">
+                        <li>
+                            <div class="task_text">
+                                <h4 type="text" class="task">hey heeyy ey</h4>
+                                <h6>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis quia maiores ex,
+                                    debitis
+                                    nesciunt aperiam sint rem commodi cupiditate harum cum, quam qui possimus quod
+                                    libero
+                                    fuga quos nulla reiciendis?</h6>
+                            </div>
+                            <div class="task_edit">
+                                <input type="checkbox" class="check">
+                                <i class="fa fa-pencil" "></i>
+                                <i class=" fa fa-trash""></i>
+                            </div>
+                        </li>
                         <li>
                             <input type="checkbox" class="check">
                             <input type="text" class="task">
@@ -69,8 +87,8 @@
                     <ul id="done-items">
                         <li>
                             <input type="checkbox" class="check">
-                            <input type="text" class="task">
-                            <span> <i class="fa fa-pencil" "></i>
+                            <h4 type="text" class="task"></h4>
+                            <span class="icons"> <i class="fa fa-pencil" "></i>
                             <i class=" fa fa-trash""></i></span>
                         </li>
                         <li>

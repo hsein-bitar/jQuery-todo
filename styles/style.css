@@ -9,6 +9,7 @@
 
 * {
     margin: 0;
+    letter-spacing: 3px;
     box-sizing: border-box;
     font-family: 'Helvetica', 'Arial', sans-serif;
 }
@@ -20,7 +21,6 @@
     align-items: center;
     padding-top: 40px;
     background-color: var(--background);
-    /* height: 100vh; */
     min-height: 100vh;
 }
 
@@ -57,11 +57,11 @@
 
 #form-part-one input {
     background-color: var(--bright);
+    border: 2px solid var(--dark);
     border-radius: 15px;
     font-size: 18px;
     padding: 20px;
     flex: 1;
-    /* border: 5px solid red; */
     max-height: 30px;
     position: relative;
     top: 0;
@@ -71,6 +71,7 @@
 #form-part-two {
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
     width: 100%;
 }
 
@@ -88,9 +89,10 @@ label {
 }
 
 textarea {
+    background-color: var(--bright);
+    border: 2px solid var(--dark);
     min-height: 20vh;
     margin-top: 20px;
-    background-color: var(--bright);
     border-radius: 15px;
     font-size: 18px;
     padding: 20px;
@@ -98,7 +100,7 @@ textarea {
     resize: vertical;
 }
 
-button {
+#reveal {
     margin-top: 20px;
     margin-right: 20px;
     background-color: var(--click);
@@ -109,13 +111,40 @@ button {
     width: 20%;
 }
 
-#submit {
-    margin-right: 0px;
-    align-self: flex-end;
+#date_btn {
+    height: 30px;
+    margin-top: 20px;
+    display: flex;
+}
+
+#due_date {
+    background-color: var(--accent);
+    border: 2px solid var(--dark);
+    border-radius: 15px;
+    margin-right: 10px;
+    width: 100%;
+    font-size: 18px;
+    padding: 20px;
+}
+
+#submit_btn {
+    text-align: center;
+    vertical-align: middle;
+    line-height: 0px;
+    border: 2px solid var(--dark);
+    background-color: var(--click);
+    border-radius: 15px;
+    color: var(--dark);
+    font-size: 45px;
+    width: 20%;
+    padding: 20px;
 }
 
 hr {
+    border: none;
     margin-top: 20px;
+    height: 5px;
+    background-color: var(--accent);
 }
 
 #search-wrapper {
@@ -131,7 +160,6 @@ hr {
     font-size: 18px;
     width: 80%;
 }
-
 
 #lists {
     display: flex;
@@ -171,6 +199,9 @@ hr {
 }
 
 .main ul li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     border-radius: 15px;
     padding: 15px;
     margin-top: 10px;
@@ -179,11 +210,21 @@ hr {
 }
 
 .check {
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    background-color: var(--bright);
-    border: 1px solid var(--bright);
+    width: 20px;
+    height: 20px;
+}
+
+.task_text {
+    width: 90%;
+}
+
+.task_edit {
+    align-items: flex-end;
+    width: 20%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid red;
 }
 
 .task {
@@ -200,10 +241,8 @@ hr {
 }
 
 i {
-    float: right;
     font-size: 25px;
-    margin-right: 10px;
-    margin-left: 10px;
+    margin: 20px 0px 0px 0px;
 }
 
 i:hover {
@@ -264,6 +303,7 @@ i:hover {
 
 }
 
+/* class to switch forms between search and add task */
 .none {
     display: none !important;
 }
