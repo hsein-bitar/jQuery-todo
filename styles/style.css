@@ -9,6 +9,7 @@
 
 * {
     margin: 0;
+    padding: 0;
     letter-spacing: 3px;
     box-sizing: border-box;
     font-family: 'Helvetica', 'Arial', sans-serif;
@@ -111,13 +112,14 @@ textarea {
     width: 20%;
 }
 
-#date_btn {
+#date-btn {
     height: 30px;
-    margin-top: 20px;
+    margin-top: 50px;
+    margin-left: 50px;
     display: flex;
 }
 
-#due_date {
+#due-date {
     background-color: var(--accent);
     border: 2px solid var(--dark);
     border-radius: 15px;
@@ -127,7 +129,7 @@ textarea {
     padding: 20px;
 }
 
-#submit_btn {
+#submit-btn {
     text-align: center;
     vertical-align: middle;
     line-height: 0px;
@@ -183,6 +185,7 @@ hr {
 #done {
     margin-left: 5px;
     width: 100%;
+    /* TODO */
 }
 
 #done h3 {
@@ -200,7 +203,6 @@ hr {
 
 .main ul li {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     border-radius: 15px;
     padding: 15px;
@@ -214,31 +216,56 @@ hr {
     height: 20px;
 }
 
-.task_text {
-    width: 90%;
+.task-text {
+    width: 100%;
+    word-wrap: break-word;
+    position: relative;
+    align-self: flex-start;
+    margin-right: 20px;
+    vertical-align: top;
 }
 
-.task_edit {
-    align-items: flex-end;
-    width: 20%;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    border: 1px solid red;
-}
-
-.task {
+.task-title {
     font-size: 18px;
-    padding: 0 10px;
     width: fit-content;
     background: transparent;
     border: none;
     color: var(--bright);
 }
 
-.task:focus {
+.task-text h6 {
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: 300;
+}
+
+.task-due-date {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    color: red;
+    float: right;
+}
+
+.task-edit {
+    align-self: flex-start;
+    align-items: flex-end;
+    width: 50px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.task-title :focus {
     outline: none;
 }
+
+
+
+i:first-of-type {
+    margin-top: 50px;
+}
+
 
 i {
     font-size: 25px;
@@ -249,7 +276,8 @@ i:hover {
     color: red;
 }
 
-.completed {
+#done-items h4,
+#done-items h6 {
     color: var(--accent);
     text-decoration: line-through;
 }
@@ -293,13 +321,21 @@ i:hover {
     }
 
     #todo {
+        margin-left: 0;
         width: 100%;
     }
 
     #done {
+        margin-left: 0;
         margin-top: 40px;
 
     }
+
+    #date-btn {
+        margin-top: 20px;
+        margin-left: 0px;
+    }
+
 
 }
 

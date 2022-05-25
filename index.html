@@ -28,17 +28,18 @@
                 <div id="form-part-two">
                     <label for="priority">Priority Slider:</label>
                     <input id="priority" name="priority" type="range" list="tickmarks" min="0" max="100" value="50"
-                        step="25">
+                        step="20">
                     <datalist id="tickmarks">
-                        <option value="0" label="1">1</option>
-                        <option value="25" label="2">2</option>
-                        <option value="50" label="3">3</option>
-                        <option value="75" label="4">4</option>
+                        <option value="0" label="0">0</option>
+                        <option value="20" label="1">1</option>
+                        <option value="40" label="2">2</option>
+                        <option value="60" label="3">3</option>
+                        <option value="80" label="4">4</option>
                         <option value="100" label="5">5</option>
                     </datalist>
-                    <div id="date_btn">
-                        <input type="date" name="due_date" id="due_date">
-                        <button id="submit_btn" type="submit">+</button>
+                    <div id="date-btn">
+                        <input type="date" name="due-date" id="due-date" placeholder="date" required>
+                        <button id="submit-btn" type="submit">+</button>
                     </div>
                 </div>
             </form>
@@ -47,62 +48,11 @@
                 <div id="todo">
                     <h3>- todo items -</h3>
                     <ul id="todo-items">
-                        <li>
-                            <div class="task_text">
-                                <h4 type="text" class="task">hey heeyy ey</h4>
-                                <h6>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis quia maiores ex,
-                                    debitis
-                                    nesciunt aperiam sint rem commodi cupiditate harum cum, quam qui possimus quod
-                                    libero
-                                    fuga quos nulla reiciendis?</h6>
-                            </div>
-                            <div class="task_edit">
-                                <input type="checkbox" class="check">
-                                <i class="fa fa-pencil" "></i>
-                                <i class=" fa fa-trash""></i>
-                            </div>
-                        </li>
-                        <li>
-                            <input type="checkbox" class="check">
-                            <input type="text" class="task">
-                            <span> <i class="fa fa-pencil" "></i>
-                            <i class=" fa fa-trash""></i></span>
-                        </li>
-                        <li>
-                            <input type="checkbox" class="check">
-                            <input type="text" class="task">
-                            <span> <i class="fa fa-pencil" "></i>
-                            <i class=" fa fa-trash""></i></span>
-                        </li>
-                        <li>
-                            <input type="checkbox" class="check">
-                            <input type="text" class="task">
-                            <span> <i class="fa fa-pencil" "></i>
-                            <i class=" fa fa-trash""></i></span>
-                        </li>
                     </ul>
                 </div>
                 <div id="done">
                     <h3>- done items -</h3>
                     <ul id="done-items">
-                        <li>
-                            <input type="checkbox" class="check">
-                            <h4 type="text" class="task"></h4>
-                            <span class="icons"> <i class="fa fa-pencil" "></i>
-                            <i class=" fa fa-trash""></i></span>
-                        </li>
-                        <li>
-                            <input type="checkbox" class="check">
-                            <input type="text" class="task">
-                            <span> <i class="fa fa-pencil" "></i>
-                            <i class=" fa fa-trash""></i></span>
-                        </li>
-                        <li>
-                            <input type="checkbox" class="check">
-                            <input type="text" class="task">
-                            <span> <i class="fa fa-pencil" "></i>
-                            <i class=" fa fa-trash""></i></span>
-                        </li>
                     </ul>
                 </div>
             </div>
