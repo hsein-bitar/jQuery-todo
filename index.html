@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./assets/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="styles/style.css">
+    <script src="https://kit.fontawesome.com/946dc31868.js" crossorigin="anonymous"></script>
+    <title>ToDo</title>
+</head>
+
+<body>
+    <!-- wrapper controls height, width, and centering -->
+    <div class="wrapper">
+        <div class="main" id="main">
+            <h2><span id="tasx"> tasX </span> - get things done</h2>
+            <div id="search-wrapper">
+                <button id="reveal">+</button>
+                <input type="text" id="search" name="search" placeholder="search...">
+            </div>
+            <form class="none">
+                <div id="form-part-one">
+                    <input id="title" type="text" placeholder="Enter task title" required>
+                    <textarea id="description" type="text-area" placeholder="Enter task description"
+                        required></textarea>
+                </div>
+                <div id="form-part-two">
+                    <label for="priority">Priority Slider:</label>
+                    <input id="priority" name="priority" type="range" list="tickmarks" min="0" max="100" value="50"
+                        step="25">
+                    <datalist id="tickmarks">
+                        <option value="0" label="1">1</option>
+                        <option value="25" label="2">2</option>
+                        <option value="50" label="3">3</option>
+                        <option value="75" label="4">4</option>
+                        <option value="100" label="5">5</option>
+                    </datalist>
+                    <button id="submit" type="submit">+</button>
+                </div>
+            </form>
+
+            <div id="lists">
+                <div id="todo">
+                    <h3>- todo items -</h3>
+                    <ul id="todo-items"></ul>
+                </div>
+                <div id="done">
+                    <h3>- done items -</h3>
+                    <ul id="done-items"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="./javascript/jquery-3.5.1.min.js"></script>
+    <script src="./javascript/index.js"></script>
+</body>
+
+</html>
