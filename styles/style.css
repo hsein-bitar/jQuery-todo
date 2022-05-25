@@ -1,0 +1,14 @@
+:root {
+    --bright: #ffffff;
+    --background: rgb(56, 65, 84);
+    --click: rgb(207, 93, 0);
+    --dark: #1f1f1f;
+    --accent: rgb(151, 255, 226);
+    --accent2: rgb(255, 145, 0);
+}
+
+* {
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Helvetica', 'Arial', sans-serif;
+}
