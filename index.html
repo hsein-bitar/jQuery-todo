@@ -21,16 +21,25 @@
             </div>
             <form class="none">
                 <div id="form-part-one">
-                    <input id="title" type="text" placeholder="Enter task title">
-                    <textarea id="description" type="text-area" placeholder="Enter task description"></textarea>
+                    <input id="title" type="text" placeholder="Enter task title" required>
+                    <textarea id="description" type="text-area" placeholder="Enter task description"
+                        required></textarea>
                 </div>
                 <div id="form-part-two">
                     <label for="priority">Priority Slider:</label>
                     <input id="priority" name="priority" type="range" list="tickmarks" min="0" max="100" value="50"
                         step="25">
+                    <datalist id="tickmarks">
+                        <option value="0" label="1">1</option>
+                        <option value="25" label="2">2</option>
+                        <option value="50" label="3">3</option>
+                        <option value="75" label="4">4</option>
+                        <option value="100" label="5">5</option>
+                    </datalist>
+                    <button id="submit" type="submit">+</button>
                 </div>
             </form>
-
+            <hr>
             <div id="lists">
                 <div id="todo">
                     <h3>- todo items -</h3>
