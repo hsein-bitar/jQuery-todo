@@ -68,9 +68,9 @@ let loadTasksFromStorage = () => {
     let done_list = [];
 
     // Get the tasks from localStorage and convert it to an array
-    if (localStorage.getItem("tasks") == null) return;
-    // Loop through the tasks and add them to the correct list
     let tasks = Array.from(JSON.parse(localStorage.getItem("tasks")));
+    if (tasks.length == 0) return;
+    // Loop through the tasks and add them to the correct list
     tasks.forEach(task => {
         if (task.state) { done_list.push(task); }
         else { todo_list.push(task); }
@@ -105,6 +105,7 @@ let renderLists = (search) => {
         const li = createTaskHTMLElement(task);
         done_items_view.insertBefore(li, done_items_view.children[0]);
     });
+
 }
 
 function addTask() {
@@ -164,7 +165,7 @@ function editTask(element) {
 // global variables
 let sorting_functions = {
     priority: (a, b) => a.priority > b.priority ? 1 : -1,
-    due: (a, b) => a.due > b.due ? -1 : 1
+    due: (a, b) => new Date(a.due) > new Date(b.due) ? -1 : 1
 }
 
 let search = $('#search');
