@@ -343,3 +343,9 @@ i:hover {
 .none {
     display: none !important;
 }
+
+#todo i,
+#done i {
+    margin-top: 0px;
+    margin-bottom: 20px;
+}

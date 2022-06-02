@@ -1,3 +1,7 @@
+// global variables
+// store current task to track edits preserving id and state
+var task_being_edited = {};
+
 // utility functions definitions
 let generateID = () => {
     let id = '_' + Math.random().toString(36).slice(2, 9);
@@ -6,8 +10,8 @@ let generateID = () => {
 let createTaskObject = (id = null, state = false) => {
     // TODO check if local storage has a task_being_edited..load its id and state
     let task_object = {
-        id: id ? id : generateID(),
-        state: state ? state : false,
+        id: task_being_edited.id ? task_being_edited.id : generateID(),
+        state: task_being_edited.state ? task_being_edited.state : false,
         title: $('#title')[0].value,
         description: $('#description')[0].value,
         priority: $('#priority')[0].value / 20,
@@ -30,7 +34,7 @@ let createTaskHTMLElement = (task) => {
     </div>
     <div class="task-edit">
         <input type="checkbox" class="check" id="chk${task.id}" onclick="checkTask(this)" ${task.state ? 'checked' : ''}>
-        <i id="edt${task.id}" class="fa fa-pencil""></i>
+        <i id="edt${task.id}" class="fa fa-pencil"" onclick="editTask(this)"></i>
         <i id="del${task.id}" class=" fa fa-trash"" onclick="removeTask(this)"></i>
     </div>`;
     return task_element;
@@ -60,18 +64,15 @@ let renderLists = (search) => {
 
     // 1- gets data from localStorage on every render
     let [todo_list, done_list] = loadTasksFromStorage();
-
-    // 2 -filter lists according to search
     if (search) {
-        search = '/' + search + '/gi';
-        todo_list = todo_list.filter((task) => task.description.match(search) || task.title.match(search));
-        done_list = done_list.filter((task) => task.description.match(search) || task.title.match(search));
+        const regex = new RegExp(search, 'gi');
+        todo_list = todo_list.filter((task) => task.description.match(regex) || task.title.match(regex));
+        done_list = done_list.filter((task) => task.description.match(regex) || task.title.match(regex));
     }
 
     // 3 - sort list // TODO give the sorting function to this, but not as a parameter, keep each list sorting separate
     todo_list = todo_list.sort((a, b) => a.priority > b.priority ? 1 : -1);
     done_list = done_list.sort((a, b) => a.priority > b.priority ? 1 : -1);
-    console.log(todo_list, done_list);
 
     // 4- create dom elements, then render to DOM
     todo_list.forEach(task => {
@@ -90,6 +91,7 @@ function addTask() {
     let new_task = createTaskObject();
     localStorage.setItem("tasks", JSON.stringify([...JSON.parse(localStorage.getItem("tasks") || "[]"), new_task]));
     renderLists();
+    task_being_edited = {};
 }
 
 function checkTask(element) {
@@ -105,10 +107,6 @@ function checkTask(element) {
     renderLists();
 }
 
-// TODO store sorting functions in an array and store config of each list somewhere
-// end of utility functions section
-
-
 function removeTask(element) {
     let targetID = element.id.slice(3);
     let tasks = Array.from(JSON.parse(localStorage.getItem("tasks")));
@@ -121,21 +119,28 @@ function removeTask(element) {
     renderLists();
 }
 
+function editTask(element) {
+    let targetID = element.id.slice(3);
+    let tasks = Array.from(JSON.parse(localStorage.getItem("tasks")));
+    tasks.forEach((task, i) => {
+        if (task.id === targetID) {
+            task_being_edited = tasks.splice(i, 1)[0];
+        }
+    });
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    renderLists();
+    // TODO remove target task from local storage
+    // let task_being_edited = tasks.filter(obj => obj.id == targetID)[0];
+    $('#title')[0].value = task_being_edited.title;
+    $('#description')[0].value = task_being_edited.description;
+    $('#priority')[0].value = task_being_edited.priority * 20;
+    $('#due-date')[0].value = task_being_edited.due;
+    revealHandler();
+}
 
 
-
-
-
-
-// global variables
-// task_being_edited={store data here, for cancel as well}
-
-
-
-
-
-// TODO main functions
-
+// TODO store sorting functions in an array and store config of each list somewhere
+// end of utility functions section
 
 let search = $('#search');
 let todo_items_view = $('#todo-items')[0];
@@ -146,6 +151,8 @@ let search_wrapper = $('#search-wrapper')[0];
 let form = $("form")[0];
 let reveal = $("#reveal")[0]; //plus button
 
+
+//event handling functions
 //reveals form to add tasks and hides search bar
 let revealHandler = () => {
     search_wrapper.classList.add('none');
@@ -157,93 +164,14 @@ let hideHandler = () => {
     form.classList.add('none')
 }
 
-// TODO // filters tasks when there is input in search bar
-let searchHandler = (e) => {
-    console.log(e.target.value);
-    for (let i = 0; i < todo_items_view.length; i++) {
-        console.log(todo_items_view[i]);
-    }
-}
-
-
-
-
-console.log(reveal);
-// console.log(reveal2);
+// adding event listeners
 $("#reveal").click(revealHandler);
-search.keyup(searchHandler);
-
-
+search.keyup((e) => renderLists(e.target.value));
 // On form submit add task
 $("form")[0].addEventListener("submit", e => {
     e.preventDefault();
     addTask();
 });
 
-// TODO test if not needed delete
-// function loadFromLocalStorage() {
-//     // if local storage empty, break
-//     if (localStorage.getItem("tasks") == null) return;
-//     // Get the tasks from localStorage and convert it to an array
-//     let tasks = Array.from(JSON.parse(localStorage.getItem("tasks")));
-//     // TODO sort default then append
-//     // Loop through the tasks and add them to the list
-//     tasks.forEach(task => {
-//         const li = createTaskHTMLElement(task);
-//         if (task.state) {
-//             done_items_view.insertBefore(li, done_items_view.children[0]);
-//         } else {
-//             todo_items_view.insertBefore(li, todo_items_view.children[0]);
-//         }
-//     });
-// }
-
-
-
-// store current task to track changes
-var currentTask = null;
-
-// get current task
-function getCurrentTask(event) {
-    currentTask = event.value;
-}
-// TODO add edit listener
-// TODO remove from local storage??
-// edit the task and update local storage
-function editTask(event) {
-    // TODO store the id and the state somewhere,
-    // then make the create task object look for those values
-    // TODO clean up the task_being_edited from local storage or whatever
-
-    revealHandler();
-    let tasks = Array.from(JSON.parse(localStorage.getItem("tasks")));
-    // check if task is empty
-    if (event.value === "") {
-        alert("Task is empty!");
-        event.value = currentTask;
-        return;
-    }
-    // task already exist
-    tasks.forEach(task => {
-        if (task.task === event.value) {
-            alert("Task already exist!");
-            event.value = currentTask;
-            return;
-        }
-    });
-    // update task
-    tasks.forEach(task => {
-        if (task.task === currentTask) {
-            task.task = event.value;
-        }
-    });
-    // update local storage
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-}
-
-
-
-// onload:
-// renderLists
-// On app load, get all tasks from localStorage
-// window.onload = loadFromLocalStorage;
+// onload, gets data from local storage and renders lists
+window.onload = renderLists();
