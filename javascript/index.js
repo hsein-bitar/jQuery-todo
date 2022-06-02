@@ -7,15 +7,19 @@ let timeLeft = (time) => {
     let due = ''
     let delta = Math.abs(time - Date.now()) / 1000;
     let days = Math.floor(delta / 86400);
-    if (days > 0) due = `${days}D `
-    if (days > 1) return due;
+    if (days > 0) {
+        due = `${days}Days `
+        return due;
+    }
     delta -= days * 86400;
     let hours = Math.floor(delta / 3600) % 24;
-    if (hours > 0) due = `${due}${hours}H `
-    if (hours > 1) return due
+    if (hours > 0) {
+        due = `${due}${hours}Hours `
+        return due
+    }
     delta -= hours * 3600;
     let minutes = Math.floor(delta / 60) % 60;
-    due = `${due} ${minutes}M`
+    due = `${due}${minutes}Minutes`
     return due;
 }
 
@@ -212,3 +216,4 @@ $('.sort').click((e) => {
     renderLists();
     console.log(e.target.dataset.sort);
 });
+
