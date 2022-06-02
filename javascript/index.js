@@ -8,7 +8,7 @@ let generateID = () => {
     return id;
 }
 let createTaskObject = (id = null, state = false) => {
-    // TODO check if local storage has a task_being_edited..load its id and state
+    // check if local storage has a task_being_edited..load its id and state
     let task_object = {
         id: task_being_edited.id ? task_being_edited.id : generateID(),
         state: task_being_edited.state ? task_being_edited.state : false,
@@ -70,7 +70,7 @@ let renderLists = (search) => {
         done_list = done_list.filter((task) => task.description.match(regex) || task.title.match(regex));
     }
 
-    // 3 - sort list // TODO give the sorting function to this, but not as a parameter, keep each list sorting separate
+    // 3 - sort list, give the sorting function to this, but not as a parameter, keep each list sorting separate
     todo_list = todo_list.sort(sorting_functions[localStorage.getItem('todo_sorting')]);
     done_list = done_list.sort(sorting_functions[localStorage.getItem('done_sorting')]);
 
@@ -124,23 +124,20 @@ function editTask(element) {
     let tasks = Array.from(JSON.parse(localStorage.getItem("tasks")));
     tasks.forEach((task, i) => {
         if (task.id === targetID) {
+            // remove target task from local storage and store it global variable
             task_being_edited = tasks.splice(i, 1)[0];
         }
     });
     localStorage.setItem("tasks", JSON.stringify(tasks));
     renderLists();
-    // TODO remove target task from local storage
-    // let task_being_edited = tasks.filter(obj => obj.id == targetID)[0];
     $('#title')[0].value = task_being_edited.title;
     $('#description')[0].value = task_being_edited.description;
     $('#priority')[0].value = task_being_edited.priority * 20;
     $('#due-date')[0].value = task_being_edited.due;
     revealHandler();
 }
-
-
-// TODO store sorting functions in an array and store config of each list somewhere
 // end of utility functions section
+
 
 // global variables
 let sorting_functions = {

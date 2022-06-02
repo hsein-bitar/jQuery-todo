@@ -164,14 +164,32 @@ hr {
 }
 
 #lists {
-    display: flex;
+    /* display: flex;
     flex-direction: row;
-    margin-top: 10px;
+    margin-top: 10px; */
+
+    /* width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row; */
+
+    width: 100%;
+    display: flex;
+    flex: auto auto;
+    flex-wrap: wrap;
 }
 
 #todo {
-    margin-right: 5px;
-    width: 100%;
+    /* margin-right: 5px;
+    width: 100%; */
+
+    /* flex: 1;
+    flex: 0 1 calc(50% - 10px);
+    margin: 5px; */
+
+    padding: 20px;
+    width: 50%;
+    box-sizing: border-box;
 }
 
 #todo h3 {
@@ -183,9 +201,15 @@ hr {
 
 
 #done {
-    margin-left: 5px;
-    width: 100%;
-    /* TODO */
+    /* flex: 1;
+    flex: 0 1 calc(50% - 10px);
+    margin: 5px; */
+    padding: 20px;
+    width: 50%;
+    box-sizing: border-box;
+
+    /* margin-left: 5px;
+    width: 100%; */
 }
 
 #done h3 {
@@ -224,7 +248,7 @@ hr {
 }
 
 .task-text {
-    width: 100%;
+    width: 80%;
     word-wrap: break-word;
     position: relative;
     align-self: flex-start;
@@ -328,7 +352,8 @@ i:hover {
         flex-direction: column;
     }
 
-    #todo {
+    #todo,
+    #done {
         margin-left: 0;
         width: 100%;
     }
