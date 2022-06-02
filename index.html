@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="./assets/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="styles/style.css">
     <script src="https://kit.fontawesome.com/946dc31868.js" crossorigin="anonymous"></script>
     <title>tasX</title>
@@ -38,6 +39,7 @@
                         <option value="100" label="5">5</option>
                     </datalist>
                     <div id="date-btn">
+                        <label for="due-date">Due Date:</label>
                         <input type="date" name="due-date" id="due-date" placeholder="date" required>
                         <button id="submit-btn" type="submit">+</button>
                     </div>
@@ -46,7 +48,9 @@
             <hr>
             <div id="lists">
                 <div id="todo">
-                    <h3>- todo items -</h3>
+                    <h3>- todo items - <i class="fas fa-sort"></i> <i class="fa-solid fa-arrow-down-big-small"></i>
+                        <i class="fa-regular fa-arrow-down-1-9"></i>
+                    </h3>
                     <ul id="todo-items">
                     </ul>
                 </div>
