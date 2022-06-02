@@ -48,14 +48,17 @@
             <hr>
             <div id="lists">
                 <div id="todo">
-                    <h3>- todo items - <i class="fas fa-sort"></i> <i class="fa-solid fa-arrow-down-big-small"></i>
-                        <i class="fa-regular fa-arrow-down-1-9"></i>
+                    <h3>- todo items - <i data-sort="priority" data-list="todo_sorting"
+                            class="fas fa-sort sort active"></i> <i data-sort="due" data-list="todo_sorting"
+                            class="fa-regular fa-clock sort"></i>
                     </h3>
                     <ul id="todo-items">
                     </ul>
                 </div>
                 <div id="done">
-                    <h3>- done items - <i class="fas fa-sort"></i></h3>
+                    <h3>- done items - <i data-sort="priority" data-list="done_sorting"
+                            class="fas fa-sort sort active"></i> <i data-sort="due" data-list="done_sorting"
+                            class="fa-regular fa-clock sort"></i></h3>
                     <ul id="done-items">
                     </ul>
                 </div>

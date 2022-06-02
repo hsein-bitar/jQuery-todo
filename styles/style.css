@@ -195,6 +195,13 @@ hr {
     margin-top: 20px;
 }
 
+#todo h3 i,
+#done h3 i {
+    margin-top: 0px;
+    margin-bottom: 20px;
+}
+
+
 .main ul {
     list-style: none;
     color: var(--bright);
@@ -276,6 +283,7 @@ i:hover {
     color: red;
 }
 
+
 #done-items h4,
 #done-items h6 {
     color: var(--accent);
@@ -344,8 +352,6 @@ i:hover {
     display: none !important;
 }
 
-#todo i,
-#done i {
-    margin-top: 0px;
-    margin-bottom: 20px;
+.active {
+    color: red;
 }

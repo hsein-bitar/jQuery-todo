@@ -71,8 +71,8 @@ let renderLists = (search) => {
     }
 
     // 3 - sort list // TODO give the sorting function to this, but not as a parameter, keep each list sorting separate
-    todo_list = todo_list.sort((a, b) => a.priority > b.priority ? 1 : -1);
-    done_list = done_list.sort((a, b) => a.priority > b.priority ? 1 : -1);
+    todo_list = todo_list.sort(sorting_functions[localStorage.getItem('todo_sorting')]);
+    done_list = done_list.sort(sorting_functions[localStorage.getItem('done_sorting')]);
 
     // 4- create dom elements, then render to DOM
     todo_list.forEach(task => {
@@ -142,6 +142,12 @@ function editTask(element) {
 // TODO store sorting functions in an array and store config of each list somewhere
 // end of utility functions section
 
+// global variables
+let sorting_functions = {
+    priority: (a, b) => a.priority > b.priority ? 1 : -1,
+    due: (a, b) => a.due > b.due ? 1 : -1
+}
+
 let search = $('#search');
 let todo_items_view = $('#todo-items')[0];
 let done_items_view = $('#done-items')[0];
@@ -174,4 +180,19 @@ $("form")[0].addEventListener("submit", e => {
 });
 
 // onload, gets data from local storage and renders lists
-window.onload = renderLists();
+
+window.onload = () => {
+    localStorage.setItem('todo_sorting', 'priority');
+    localStorage.setItem('done_sorting', 'priority');
+    renderLists();
+}
+
+$('.sort').click((e) => {
+    let h3 = e.target.parentNode;
+    console.log(h3);
+    h3.querySelectorAll('i').forEach(i => i.classList.remove('active'));
+    e.target.classList.add('active');
+    localStorage.setItem(e.target.dataset.list, e.target.dataset.sort);
+    renderLists();
+    console.log(e.target.dataset.sort);
+});
