@@ -1,10 +1,10 @@
-// utility functions
+// utility functions definitions
 let generateID = () => {
     let id = '_' + Math.random().toString(36).slice(2, 9);
     return id;
 }
-
 let createTaskObject = (id = null, state = false) => {
+    // TODO check if local storage has a task_being_edited..load its id and state
     let task_object = {
         id: id ? id : generateID(),
         state: state ? state : false,
@@ -16,7 +16,7 @@ let createTaskObject = (id = null, state = false) => {
     $('#title')[0].value = "";
     $('#description')[0].value = "";
     $('#priority')[0].value = 50;
-    $('#due-date')[0].value = '2022-05-05';
+    $('#due-date')[0].value = '';
     return task_object;
 }
 
@@ -29,9 +29,9 @@ let createTaskHTMLElement = (task) => {
         <h6>${task.description}</h6>
     </div>
     <div class="task-edit">
-        <input type="checkbox" class="check" id="chk${task.id}" onclick="checkTask(this)" ${task.completed ? 'checked' : ''}>
+        <input type="checkbox" class="check" id="chk${task.id}" onclick="checkTask(this)" ${task.state ? 'checked' : ''}>
         <i id="edt${task.id}" class="fa fa-pencil""></i>
-        <i id="del${task.id}" class=" fa fa-trash""></i>
+        <i id="del${task.id}" class=" fa fa-trash"" onclick="removeTask(this)"></i>
     </div>`;
     return task_element;
 }
@@ -52,29 +52,11 @@ let loadTasksFromStorage = () => {
     return [todo_list, done_list]
 }
 
-// end of utility functions section
-
-
-// store sorting config maybe in local storage
-let todo_list_sorting = 0;
-let done_list_sorting = 0;
-
-
-// TODO main functions
-// add task:
-// 1- gets input data
-// 2- generates an id if new task, creates a task object
-// 3- modifies localStorage to include the new task
-// 4- calls the render function only on the relevant list
-
-
-// onload:
-// loadTasksFromStorage
-// render(list 1), list 2
-
 
 // render list to DOM function
-let renderLists = (list, search, sortingFunction) => {
+let renderLists = (search) => {
+    done_items_view.innerHTML = ""
+    todo_items_view.innerHTML = ""
 
     // 1- gets data from localStorage on every render
     let [todo_list, done_list] = loadTasksFromStorage();
@@ -86,9 +68,9 @@ let renderLists = (list, search, sortingFunction) => {
         done_list = done_list.filter((task) => task.description.match(search) || task.title.match(search));
     }
 
-    // 3 - sort list // TODO give the sorting function to this instead
-    todo_list = todo_list.sort((a, b) => a.priority > b.priority ? -1 : 1);
-    done_list = done_list.sort((a, b) => a.priority > b.priority ? -1 : 1);
+    // 3 - sort list // TODO give the sorting function to this, but not as a parameter, keep each list sorting separate
+    todo_list = todo_list.sort((a, b) => a.priority > b.priority ? 1 : -1);
+    done_list = done_list.sort((a, b) => a.priority > b.priority ? 1 : -1);
     console.log(todo_list, done_list);
 
     // 4- create dom elements, then render to DOM
@@ -101,11 +83,58 @@ let renderLists = (list, search, sortingFunction) => {
         done_items_view.insertBefore(li, done_items_view.children[0]);
     });
 }
-// takes one of the two lists, a search string, 
-// 
-// 2- gets config of each list, and sorts these arrays 
-// 3- calls the render function on each array
 
+function addTask() {
+    hideHandler();
+    // create task object, add to local storage, call renderLists function
+    let new_task = createTaskObject();
+    localStorage.setItem("tasks", JSON.stringify([...JSON.parse(localStorage.getItem("tasks") || "[]"), new_task]));
+    renderLists();
+}
+
+function checkTask(element) {
+    let targetID = element.id.slice(3);
+    // gets localStorage tasks and modifies the element with the id
+    let tasks = Array.from(JSON.parse(localStorage.getItem("tasks")));
+    tasks.forEach(task => {
+        if (task.id === targetID) {
+            task.state = !task.state;
+        }
+    });
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    renderLists();
+}
+
+// TODO store sorting functions in an array and store config of each list somewhere
+// end of utility functions section
+
+
+function removeTask(element) {
+    let targetID = element.id.slice(3);
+    let tasks = Array.from(JSON.parse(localStorage.getItem("tasks")));
+    tasks.forEach((task, i) => {
+        if (task.id === targetID) {
+            tasks.splice(i, 1);
+        }
+    });
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    renderLists();
+}
+
+
+
+
+
+
+
+// global variables
+// task_being_edited={store data here, for cancel as well}
+
+
+
+
+
+// TODO main functions
 
 
 let search = $('#search');
@@ -145,83 +174,31 @@ $("#reveal").click(revealHandler);
 search.keyup(searchHandler);
 
 
-// On app load, get all tasks from localStorage
-// window.onload = loadFromLocalStorage;
-
 // On form submit add task
 $("form")[0].addEventListener("submit", e => {
     e.preventDefault();
     addTask();
 });
 
-function loadFromLocalStorage() {
-    // if local storage empty, break
-    if (localStorage.getItem("tasks") == null) return;
-    // Get the tasks from localStorage and convert it to an array
-    let tasks = Array.from(JSON.parse(localStorage.getItem("tasks")));
-    // TODO sort default then append
-    // Loop through the tasks and add them to the list
-    tasks.forEach(task => {
-        const li = createTaskHTMLElement(task);
-        if (task.completed) {
-            done_items_view.insertBefore(li, done_items_view.children[0]);
-        } else {
-            todo_items_view.insertBefore(li, todo_items_view.children[0]);
-        }
-    });
-}
-
-function addTask(id, state) {
-    hideHandler();
-    let new_task = createTaskObject();
-    console.log(new_task);
-
-    // TODO call a general function that re-renders from local storage until the DOM
-    const li = createTaskHTMLElement(new_task);
-    console.log(li);
-    localStorage.setItem("tasks", JSON.stringify([...JSON.parse(localStorage.getItem("tasks") || "[]"), new_task]));
-    if (state) {
-        done_items_view.insertBefore(li, todo_items_view.children[0]);
-    } else {
-        todo_items_view.insertBefore(li, todo_items_view.children[0]);
-    }
-}
-
-function checkTask(event) {
-    let targetID = event.id.slice(3);
-    let li = $(`#${targetID}`)[0];
-    // remove from parent list
-    li.parentElement.removeChild(li);
-    if (event.checked) {
-        // put into done list
-        done_items_view.insertBefore(li, todo_items_view.children[0]);
-    } else {
-        // put into todo list
-        todo_items_view.insertBefore(li, todo_items_view.children[0]);
-    }
-    //make sure the task is updated in local storage as well, so refreshing does not ruin things
-    let tasks = Array.from(JSON.parse(localStorage.getItem("tasks")));
-    tasks.forEach(task => {
-        if (task.id === targetID) {
-            task.completed = !task.completed;
-        }
-    });
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-}
+// TODO test if not needed delete
+// function loadFromLocalStorage() {
+//     // if local storage empty, break
+//     if (localStorage.getItem("tasks") == null) return;
+//     // Get the tasks from localStorage and convert it to an array
+//     let tasks = Array.from(JSON.parse(localStorage.getItem("tasks")));
+//     // TODO sort default then append
+//     // Loop through the tasks and add them to the list
+//     tasks.forEach(task => {
+//         const li = createTaskHTMLElement(task);
+//         if (task.state) {
+//             done_items_view.insertBefore(li, done_items_view.children[0]);
+//         } else {
+//             todo_items_view.insertBefore(li, todo_items_view.children[0]);
+//         }
+//     });
+// }
 
 
-// TODO not working not removing
-function removeTask(event) {
-    let tasks = Array.from(JSON.parse(localStorage.getItem("tasks")));
-    tasks.forEach(task => {
-        if (task.id === event.parentNode.children[1].id) {
-            // delete task
-            tasks.splice(tasks.indexOf(task), 1);
-        }
-    });
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-    event.parentElement.remove();
-}
 
 // store current task to track changes
 var currentTask = null;
@@ -234,8 +211,9 @@ function getCurrentTask(event) {
 // TODO remove from local storage??
 // edit the task and update local storage
 function editTask(event) {
-    // store the id and the state somewhere,
-    // then give those to the addTask function
+    // TODO store the id and the state somewhere,
+    // then make the create task object look for those values
+    // TODO clean up the task_being_edited from local storage or whatever
 
     revealHandler();
     let tasks = Array.from(JSON.parse(localStorage.getItem("tasks")));
@@ -262,3 +240,10 @@ function editTask(event) {
     // update local storage
     localStorage.setItem("tasks", JSON.stringify(tasks));
 }
+
+
+
+// onload:
+// renderLists
+// On app load, get all tasks from localStorage
+// window.onload = loadFromLocalStorage;
