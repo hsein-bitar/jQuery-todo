@@ -1,10 +1,10 @@
 :root {
     --bright: #ffffff;
-    --background: rgb(56, 65, 84);
-    --click: rgb(207, 93, 0);
-    --dark: #1f1f1f;
-    --accent: rgb(151, 255, 226);
-    --accent2: rgb(255, 145, 0);
+    --background: rgb(58, 58, 58);
+    --click: rgb(202, 115, 0);
+    --dark: #1d1d1d;
+    --accent: rgb(0, 0, 0);
+    --accent2: rgb(202, 115, 0);
 }
 
 * {
@@ -36,12 +36,12 @@
 
 .main h2 {
     background-color: var(--accent);
-    color: var(--dark);
     padding: 15px;
-    /* font-size: 35px; */
     text-align: center;
-    border-radius: 15px
+    border-radius: 15px;
+    color: var(--bright);
 }
+
 
 .main form {
     display: flex;
@@ -120,7 +120,6 @@ textarea {
 }
 
 #due-date {
-    background-color: var(--accent);
     border: 2px solid var(--dark);
     border-radius: 15px;
     margin-right: 10px;
@@ -164,15 +163,6 @@ hr {
 }
 
 #lists {
-    /* display: flex;
-    flex-direction: row;
-    margin-top: 10px; */
-
-    /* width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row; */
-
     width: 100%;
     display: flex;
     flex: auto auto;
@@ -180,13 +170,6 @@ hr {
 }
 
 #todo {
-    /* margin-right: 5px;
-    width: 100%; */
-
-    /* flex: 1;
-    flex: 0 1 calc(50% - 10px);
-    margin: 5px; */
-
     padding: 20px;
     width: 50%;
     box-sizing: border-box;
@@ -201,15 +184,9 @@ hr {
 
 
 #done {
-    /* flex: 1;
-    flex: 0 1 calc(50% - 10px);
-    margin: 5px; */
     padding: 20px;
     width: 50%;
     box-sizing: border-box;
-
-    /* margin-left: 5px;
-    width: 100%; */
 }
 
 #done h3 {
@@ -248,11 +225,11 @@ hr {
 }
 
 .task-text {
-    width: 80%;
+    width: 90%;
     word-wrap: break-word;
     position: relative;
     align-self: flex-start;
-    margin-right: 20px;
+    margin-right: 0px;
     vertical-align: top;
 }
 
@@ -274,14 +251,14 @@ hr {
     position: absolute;
     top: 0px;
     right: 0px;
-    color: red;
+    color: var(--click);
     float: right;
 }
 
 .task-edit {
     align-self: flex-start;
     align-items: flex-end;
-    width: 50px;
+    width: 60px;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -312,6 +289,10 @@ i:hover {
 #done-items h6 {
     color: var(--accent);
     text-decoration: line-through;
+}
+
+#done-items .task-due-date {
+    color: rgb(67, 67, 67);
 }
 
 @media only screen and (max-width:768px) {
@@ -356,7 +337,9 @@ i:hover {
     #done {
         margin-left: 0;
         width: 100%;
+        padding: 0px;
     }
+
 
     #done {
         margin-left: 0;
@@ -372,11 +355,27 @@ i:hover {
 
 }
 
-/* class to switch forms between search and add task */
-.none {
-    display: none !important;
-}
-
 .active {
     color: red;
+}
+
+.urgent:not(#done-items *) {
+    color: var(--accent2);
+    background-color: black;
+}
+
+.urgent:not(#done-items *) {
+    animation: blinker 0.5s linear infinite;
+}
+
+@keyframes blinker {
+    70% {
+        opacity: 0.5;
+    }
+}
+
+
+/* class to hide/switch forms between search and add task */
+.none {
+    display: none !important;
 }

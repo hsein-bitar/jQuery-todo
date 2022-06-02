@@ -2,6 +2,23 @@
 // store current task to track edits preserving id and state
 var task_being_edited = {};
 
+let timeLeft = (time) => {
+    time = Date.parse(time);
+    let due = ''
+    let delta = Math.abs(time - Date.now()) / 1000;
+    let days = Math.floor(delta / 86400);
+    if (days > 0) due = `${days}D `
+    if (days > 1) return due;
+    delta -= days * 86400;
+    let hours = Math.floor(delta / 3600) % 24;
+    if (hours > 0) due = `${due}${hours}H `
+    if (hours > 1) return due
+    delta -= hours * 3600;
+    let minutes = Math.floor(delta / 60) % 60;
+    due = `${due} ${minutes}M`
+    return due;
+}
+
 // utility functions definitions
 let generateID = () => {
     let id = '_' + Math.random().toString(36).slice(2, 9);
@@ -27,16 +44,17 @@ let createTaskObject = (id = null, state = false) => {
 let createTaskHTMLElement = (task) => {
     const task_element = document.createElement("li");
     task_element.id = task.id;
+    if (Date.parse(task.due) - Date.now() < 24 * 3600 * 1000) task_element.classList.add('urgent')
     task_element.innerHTML = `
     <div class="task-text">
-        <h4 type="text" class="task-title"><span>(${task.priority}) </span> ${task.title} <span class="task-due-date">(${task.due}) </span></h4>
-        <h6>${task.description}</h6>
-    </div>
+        <h4 type="text" class="task-title"><span>(${task.priority}) </span> ${task.title}<span class="task-due-date">${timeLeft(task.due)}</span> </h4 >
+    <h6>${task.description}</h6>
+    </div >
     <div class="task-edit">
         <input type="checkbox" class="check" id="chk${task.id}" onclick="checkTask(this)" ${task.state ? 'checked' : ''}>
-        <i id="edt${task.id}" class="fa fa-pencil"" onclick="editTask(this)"></i>
+            <i id="edt${task.id}" class="fa fa-pencil"" onclick="editTask(this)"></i>
         <i id="del${task.id}" class=" fa fa-trash"" onclick="removeTask(this)"></i>
-    </div>`;
+    </div > `;
     return task_element;
 }
 
@@ -142,7 +160,7 @@ function editTask(element) {
 // global variables
 let sorting_functions = {
     priority: (a, b) => a.priority > b.priority ? 1 : -1,
-    due: (a, b) => a.due > b.due ? 1 : -1
+    due: (a, b) => a.due > b.due ? -1 : 1
 }
 
 let search = $('#search');
