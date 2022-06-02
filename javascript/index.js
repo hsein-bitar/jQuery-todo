@@ -198,6 +198,10 @@ $("form")[0].addEventListener("submit", e => {
     addTask();
 });
 
+
+
+
+
 // onload, gets data from local storage and renders lists
 
 window.onload = () => {
@@ -217,3 +221,28 @@ $('.sort').click((e) => {
     console.log(e.target.dataset.sort);
 });
 
+
+// 
+// ***functions that populates the app with tasks for testing purposes***
+// *** just call populate() in the console after the web page is loaded :)
+
+function randomDate(start, end) {
+    return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+}
+let populate = (num = 20) => {
+    let tasks = [];
+    for (let i = 0; i < num; i++) {
+        let task_object = {
+            id: generateID(),
+            state: (Math.random() < 0.5),
+            title: 'Random Title',
+            description: "Lorem ipsum, dolor sit amet consectetur adipisicing elit.Vel mollitia animi iusto atque aspernatur, minima quis commodi veniam qui, et tempore possimus impedit similique quam.",
+            priority: (Math.floor(Math.random() * 5) + 1),
+            // due: `2022-06-05 12:30 PM`,
+            due: `2022-06-${Math.floor(Math.random() * 30)} ${Math.floor(Math.random() * 12)}:${Math.floor(Math.random() * 60)} PM`,
+        }
+        tasks.push(task_object);
+    }
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    renderLists()
+}

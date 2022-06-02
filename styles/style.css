@@ -295,7 +295,7 @@ i:hover {
     color: rgb(67, 67, 67);
 }
 
-@media only screen and (max-width:768px) {
+@media only screen and (max-width:800px) {
     .wrapper {
         padding-top: 10px;
     }
