@@ -199,6 +199,7 @@ $("form")[0].addEventListener("submit", e => {
 window.onload = () => {
     localStorage.setItem('todo_sorting', 'priority');
     localStorage.setItem('done_sorting', 'priority');
+    setInterval(renderLists, 60000);
     renderLists();
 }
 
